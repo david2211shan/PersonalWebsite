@@ -30,195 +30,202 @@ if (iTypedElement && typeof window.ityped !== 'undefined') {
 
 // Portfolio Item Filter
 
-const filterContainer = document.querySelector('.portfolio-filter'),
-    filterBtns = filterContainer.children,
-    totalFilterBtn = filterBtns.length,
-    portfolioItems = document.querySelectorAll('.portfolio-item'),
-    totalPortfolioItem = portfolioItems.length;
-    
-    for (let i = 0; i < totalFilterBtn; i++) {
-        filterBtns[i].addEventListener("click", function(){
-            filterContainer.querySelector('.active').classList.remove('active');
-            this.classList.add("active");
+const filterContainer = document.querySelector('.portfolio-filter');
+const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+if (filterContainer && portfolioItems.length) {
+    const filterBtns = Array.from(filterContainer.children);
+
+    filterBtns.forEach((btn) => {
+        btn.addEventListener('click', function(){
+            const activeBtn = filterContainer.querySelector('.active');
+            if (activeBtn) {
+                activeBtn.classList.remove('active');
+            }
+            this.classList.add('active');
 
             const filterValue = this.getAttribute('data-filter');
-            for (let k = 0; k < totalPortfolioItem; k++) {
-                if (filterValue === portfolioItems[k].getAttribute('data-category')) {
-                    portfolioItems[k].classList.remove('hide');
-                    portfolioItems[k].classList.add('show');
-                } else{
-                    portfolioItems[k].classList.remove('show');
-                    portfolioItems[k].classList.add('hide');
-                }
-                if (filterValue === 'all') {
-                    portfolioItems[k].classList.remove('hide');
-                    portfolioItems[k].classList.add('show');
-                }
-            }
+            portfolioItems.forEach((item) => {
+                const matchesCategory = filterValue === item.getAttribute('data-category') || filterValue === 'all';
+                item.classList.toggle('show', matchesCategory);
+                item.classList.toggle('hide', !matchesCategory);
+            });
         });
-    }
+    });
+}
 
 // Portfolio Lighbox
 
-const lightbox = document.querySelector('.lightbox'),
-    lightboxImg = lightbox.querySelector('.lightbox-img'),
-    lightboxText = lightbox.querySelector('.caption-text'),
-    lightboxClose = lightbox.querySelector('.lightbox-close'),
-    lightboxCounter = lightbox.querySelector('.caption-counter');
+const lightbox = document.querySelector('.lightbox');
+const lightboxImg = lightbox ? lightbox.querySelector('.lightbox-img') : null;
+const lightboxText = lightbox ? lightbox.querySelector('.caption-text') : null;
+const lightboxClose = lightbox ? lightbox.querySelector('.lightbox-close') : null;
+const lightboxCounter = lightbox ? lightbox.querySelector('.caption-counter') : null;
 
 let itemIndex = 0;
 
-for (let i = 0; i < totalPortfolioItem; i++) {
-    portfolioItems[i].addEventListener('click', function(){
-        itemIndex = i;
-        changeItem();
-        toggleLightbox();
+if (lightbox && lightboxImg && lightboxText && lightboxCounter && portfolioItems.length) {
+    portfolioItems.forEach((item, index) => {
+        item.addEventListener('click', function(){
+            itemIndex = index;
+            changeItem();
+            toggleLightbox();
+        });
     });
-}
 
-function toggleLightbox() {
-    lightbox.classList.toggle('open');
-}
-
-function changeItem() {
-    let imgSrc = portfolioItems[itemIndex].querySelector('.portfolio-img img').getAttribute('src');
-    lightboxImg.src = imgSrc;
-    lightboxText.innerHTML = portfolioItems[itemIndex].querySelector('h4').innerHTML;
-    lightboxCounter.innerHTML = (itemIndex + 1) + " of " + totalPortfolioItem;
-}
-
-function prevItem() {
-    if (itemIndex === 0) {
-        itemIndex = totalPortfolioItem - 1;
-    } else {
-        itemIndex--;
+    function toggleLightbox() {
+        lightbox.classList.toggle('open');
     }
-    changeItem();
-}
 
-function nextItem() {
-    if (itemIndex === totalPortfolioItem - 1) {
-        itemIndex = 0;
-    } else {
-        itemIndex++;
+    function changeItem() {
+        const portfolioImage = portfolioItems[itemIndex].querySelector('.portfolio-img img');
+        if (!portfolioImage) {
+            return;
+        }
+
+        const imgSrc = portfolioImage.getAttribute('src');
+        lightboxImg.src = imgSrc;
+        lightboxText.innerHTML = portfolioItems[itemIndex].querySelector('h4').innerHTML;
+        lightboxCounter.innerHTML = (itemIndex + 1) + " of " + portfolioItems.length;
     }
-    changeItem();
-}
 
-// close lightbox
-
-lightbox.addEventListener('click', function(event){
-    if(event.target === lightboxClose || event.target === lightbox){
-        toggleLightbox();
+    function prevItem() {
+        if (itemIndex === 0) {
+            itemIndex = portfolioItems.length - 1;
+        } else {
+            itemIndex--;
+        }
+        changeItem();
     }
-});
+
+    function nextItem() {
+        if (itemIndex === portfolioItems.length - 1) {
+            itemIndex = 0;
+        } else {
+            itemIndex++;
+        }
+        changeItem();
+    }
+
+    // close lightbox
+
+    lightbox.addEventListener('click', function(event){
+        if(event.target === lightboxClose || event.target === lightbox){
+            toggleLightbox();
+        }
+    });
+
+    // Expose navigation functions if needed elsewhere
+    window.prevItem = prevItem;
+    window.nextItem = nextItem;
+}
 
 // Aside Navbar
 
-const nav = document.querySelector('.nav'),
-    navList = nav.querySelectorAll('li'),
-    totalNavList = navList.length,
-    allSection = document.querySelectorAll('.section'),
-    totalSection = allSection.length;
+const nav = document.querySelector('.nav');
+const navList = nav ? Array.from(nav.querySelectorAll('li')) : [];
+const allSection = document.querySelectorAll('.section');
 
-for (let i = 0; i < totalNavList; i++) {
-    const a = navList[i].querySelector('a');
-    a.addEventListener('click', function(){
-        // remove back section class
-        removeBackSectionClass();
+if (nav && navList.length && allSection.length) {
+    const totalSection = allSection.length;
 
-        for (let j = 0; j < totalNavList; j++) {
-            if (navList[j].querySelector('a').classList.contains('active')) {
-                // add back section class
-                addBackSectionClass(j);
+    navList.forEach((item) => {
+        const link = item.querySelector('a');
+        if (!link) return;
+
+        link.addEventListener('click', function(){
+            // remove back section class
+            removeBackSectionClass();
+
+            navList.forEach((navItem, index) => {
+                const navLink = navItem.querySelector('a');
+                if (!navLink) return;
+                if (navLink.classList.contains('active')) {
+                    // add back section class
+                    addBackSectionClass(index);
+                }
+                navLink.classList.remove('active');
+            });
+
+            this.classList.add('active');
+
+            showSection(this);
+
+            // Save current section to localStorage
+            const target = this.getAttribute('href').split('#')[1];
+            localStorage.setItem('currentSection', target);
+
+            if (window.innerWidth < 1200) {
+                asideSectionTogglerBtn();
             }
-            navList[j].querySelector('a').classList.remove('active');
-        }
 
-        this.classList.add('active');
-
-        showSection(this);
-
-        // Save current section to localStorage
-        const target = this.getAttribute('href').split('#')[1];
-        localStorage.setItem('currentSection', target);
-
-        if (window.innerWidth < 1200) {
-            asideSectionTogglerBtn();
-        }
-
+        });
     });
-}
 
-function addBackSectionClass(num) 
-{
-    allSection[num].classList.add('back-section');
-}
-
-function removeBackSectionClass() 
-{
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.remove('back-section');
+    function addBackSectionClass(num)
+    {
+        allSection[num].classList.add('back-section');
     }
-}
 
-function updateNav(element) 
-{
-    for (let i = 0; i < totalNavList; i++) {
-        navList[i].querySelector('a').classList.remove('active');
+    function removeBackSectionClass()
+    {
+        allSection.forEach((section) => section.classList.remove('back-section'));
+    }
+
+    function showSection(element)
+    {
+        allSection.forEach((section) => section.classList.remove('active'));
+
         const target = element.getAttribute('href').split('#')[1];
-        if (target === navList[i].querySelector('a').getAttribute('href').split('#')[1]) {
-            navList[i].querySelector('a').classList.add('active');
+        const section = document.querySelector('#' + target);
+        if (section) {
+            section.classList.add('active');
         }
     }
-}
 
-function showSection(element) 
-{
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.remove('active');
-    }
+    // Restore last viewed section on page load
+    function restoreLastSection() {
+        const savedSection = localStorage.getItem('currentSection');
+        if (savedSection) {
+            const targetSection = document.querySelector('#' + savedSection);
+            const targetNavLink = document.querySelector(`.nav a[href="#${savedSection}"]`);
 
-    const target = element.getAttribute('href').split('#')[1];
+            if (targetSection && targetNavLink) {
+                // Remove active from all sections and nav links
+                allSection.forEach(section => section.classList.remove('active'));
+                navList.forEach(item => {
+                    const navLink = item.querySelector('a');
+                    if (navLink) {
+                        navLink.classList.remove('active');
+                    }
+                });
 
-    document.querySelector('#'+target).classList.add('active');
-}
-
-// Restore last viewed section on page load
-function restoreLastSection() {
-    const savedSection = localStorage.getItem('currentSection');
-    if (savedSection) {
-        const targetSection = document.querySelector('#' + savedSection);
-        const targetNavLink = document.querySelector(`.nav a[href="#${savedSection}"]`);
-        
-        if (targetSection && targetNavLink) {
-            // Remove active from all sections and nav links
-            allSection.forEach(section => section.classList.remove('active'));
-            navList.forEach(item => item.querySelector('a').classList.remove('active'));
-            
-            // Activate saved section and nav link
-            targetSection.classList.add('active');
-            targetNavLink.classList.add('active');
+                // Activate saved section and nav link
+                targetSection.classList.add('active');
+                targetNavLink.classList.add('active');
+            }
         }
     }
-}
 
-// Call restore function when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    restoreLastSection();
-});
+    // Call restore function when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        restoreLastSection();
+    });
 
-const navTogglerBtn = document.querySelector('.nav-toggler'),
-    aside = document.querySelector('.aside');
+    const navTogglerBtn = document.querySelector('.nav-toggler'),
+        aside = document.querySelector('.aside');
 
-navTogglerBtn.addEventListener('click', asideSectionTogglerBtn);
+    if (navTogglerBtn && aside) {
+        navTogglerBtn.addEventListener('click', asideSectionTogglerBtn);
+    }
 
-function asideSectionTogglerBtn() 
-{
-    aside.classList.toggle('open');
-    navTogglerBtn.classList.toggle('open');
-    for (let i = 0; i < totalSection; i++) {
-        allSection[i].classList.toggle('open');
+    function asideSectionTogglerBtn()
+    {
+        aside.classList.toggle('open');
+        navTogglerBtn.classList.toggle('open');
+        for (let i = 0; i < totalSection; i++) {
+            allSection[i].classList.toggle('open');
+        }
     }
 }
 
