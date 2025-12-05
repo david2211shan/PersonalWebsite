@@ -1,0 +1,138 @@
+{
+  "site": {
+    "name": "David Shanahan",
+    "title": "Personal Portfolio",
+    "logo": "DS",
+    "description": "Research Masters in Machine Learning"
+  },
+  "navigation": [
+    { "id": "home", "label": "Home", "icon": "fa fa-home" },
+    { "id": "about", "label": "About", "icon": "fa fa-user" },
+    { "id": "portfolio", "label": "Portfolio", "icon": "fa fa-briefcase" },
+    { "id": "blog", "label": "Blog", "icon": "fa fa-envelope" },
+    { "id": "contact", "label": "Contact", "icon": "fa fa-comments" }
+  ],
+  "home": {
+    "image": "images/Davidphoto.jpg",
+    "name": "David Shanahan",
+    "typingText": ["Data Scientist", "AI", "Machine Learning"],
+    "socialLinks": [
+      { "platform": "LinkedIn", "url": "https://www.linkedin.com/in/david-shanahan-89731a184/", "icon": "fa fa-linkedin" },
+      { "platform": "GitHub", "url": "https://github.com/david2211shan", "icon": "fa fa-github" }
+    ]
+  },
+  "about": {
+    "intro": {
+      "title": "I'm David and",
+      "highlight": "a technologist",
+      "description": "I am currently doing a research masters in Machine Learning with University College Cork in conjunction with Tyndall Research institute. I am passionate about applying my expertise to address real-world challenges in data and technology."
+    },
+    "personalInfo": [
+      { "label": "Age", "value": "23" },
+      { "label": "University", "value": "University College Cork" },
+      { "label": "City", "value": "Cork" },
+      { "label": "Email", "value": "info@gmail.com" },
+      { "label": "Degree", "value": "Data Science" },
+      { "label": "Research Interests", "value": "Machine Learning" }
+    ],
+    "skills": [
+      { "name": "Python", "level": 76 },
+      { "name": "R", "level": 90 },
+      { "name": "Java", "level": 80 },
+      { "name": "C", "level": 60 }
+    ],
+    "education": [
+      {
+        "date": "2024 - present",
+        "title": "Research Masters in Machine Learning",
+        "description": "Research project looking at using Machine Learning Models to analyse the output from a SAW gas sensor."
+      },
+      {
+        "date": "2020-2024",
+        "title": "Bachelor Degree in Data Science",
+        "description": "Graduated with a first class honours in Data Science with my final year project Focusing in Generative Adversarial Networks."
+      }
+    ],
+    "experience": [
+      {
+        "date": "2024 - present",
+        "title": "Researcher at Tyndall",
+        "description": "Working as a researcher at Tyndall National Institute, focusing on machine learning and sensor data analysis."
+      },
+      {
+        "date": "2022 - 2025",
+        "title": "CS and Statistics Tutor",
+        "description": "Taught an intro to Statistics tutorial class for business and maths students."
+      },
+      {
+        "date": "2023 - 2023",
+        "title": "Data Analyst Intern",
+        "description": "Intern on Dell Technologies Active Directory team."
+      }
+    ],
+    "cvLink": "#"
+  },
+  "portfolio": {
+    "filters": [
+      { "id": "all", "label": "All", "active": true },
+      { "id": "ml-projects", "label": "ML Projects", "active": false },
+      { "id": "research-work", "label": "Research Work", "active": false },
+      { "id": "tech-skills", "label": "Tech Skills", "active": false }
+    ],
+    "items": [ 
+      {
+        "id": 1,
+        "title": "Web Design",
+        "category": "web-design",
+        "image": "images/portfolio/1.jpg",
+        "alt": "Web Design"
+      },
+      {
+        "id": 2,
+        "title": "Photography",
+        "category": "photography",
+        "image": "images/portfolio/2.jpg",
+        "alt": "Photography"
+      },
+      {
+        "id": 3,
+        "title": "Wordpress",
+        "category": "wordpress",
+        "image": "images/portfolio/3.jpg",
+        "alt": "Wordpress"
+      },
+      {
+        "id": 4,
+        "title": "Web Design",
+        "category": "web-design",
+        "image": "images/portfolio/4.jpg",
+        "alt": "portfolio"
+      },
+      {
+        "id": 5,
+        "title": "Wordpress",
+        "category": "wordpress",
+        "image": "images/portfolio/5.jpg",
+        "alt": "Wordpress"
+      },
+      {
+        "id": 6,
+        "title": "Photography",
+        "category": "photography",
+        "image": "images/portfolio/6.jpg",
+        "alt": "Wordpress"
+      }
+    ]
+  },
+  "contact": {
+    "email": "info@gmail.com",
+    "formAction": "#",
+    "formFields": {
+      "name": { "placeholder": "Name*", "required": true },
+      "email": { "placeholder": "Email*", "required": true },
+      "subject": { "placeholder": "Subject*", "required": true },
+      "message": { "placeholder": "Your Message...", "required": true }
+    }
+  }
+}
+

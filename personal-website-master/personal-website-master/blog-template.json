@@ -1,0 +1,6 @@
+{
+  "title": "Your Blog Post Title",
+  "date": "DD MMM YYYY",
+  "content": "<p>Write your blog post content here. You can use HTML tags like:</p><ul><li><strong>Bold text</strong></li><li><em>Italic text</em></li><li>Lists</li><li><a href='#'>Links</a></li></ul><p>You can also add images:</p><img src='images/your-image.jpg' alt='Description' style='max-width: 100%;'><p>And code blocks:</p><pre><code>// Your code here</code></pre>"
+}
+
